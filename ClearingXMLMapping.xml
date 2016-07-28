@@ -1,0 +1,54 @@
+<mapping>
+	<field name="PARTY_TRADE_IDENTIFIER">
+		<xpath>/ClearingXML/FpML/trade/tradeHeader/partyTradeIdentifier</xpath>
+		<type>String</type>
+	</field>
+	<field name="CB_PARTY_REFERENCE">
+		<xpath>/ClearingXML/swPartyClearingBroker/partyReference/@href</xpath>
+		<type>String</type>
+	</field>
+	<field name="CB_PARTY_ID">
+		<xpath>/ClearingXML/swPartyClearingBroker/swClearingBroker/partyId</xpath>
+		<type>String</type>
+	</field>
+	<field name="TMF_BUYER">
+		<xpath>/ClearingXML/FpML/trade/creditDefaultSwap/generalTerms/buyerPartyReference/@href</xpath>
+		<type>String</type>
+	</field>
+	<field name="TMF_SELLER">
+		<xpath>/ClearingXML/FpML/trade/creditDefaultSwap/generalTerms/sellerPartyReference/@href</xpath>
+		<type>String</type>
+	</field>
+	<field name="IDX_FAMILY_TYPE">
+		<xpath>/ClearingXML/FpML/trade/creditDefaultSwap/generalTerms/indexReferenceInformation</xpath>
+		<type>String</type>
+	</field>
+	<field name="SN_FAMILY_TYPE">
+		<xpath>/ClearingXML/FpML/trade/creditDefaultSwap/generalTerms/referenceInformation</xpath>
+		<type>String</type>
+	</field>
+	<field name="INDEX_RED_CODE">
+		<xpath>/ClearingXML/FpML/trade/creditDefaultSwap/generalTerms/indexReferenceInformation/indexId</xpath>
+		<type>String</type>
+	</field>
+	<field name="REF_ENTITY_NAME">
+		<xpath>/ClearingXML/FpML/trade/creditDefaultSwap/generalTerms/referenceInformation/referenceEntity/entityName</xpath>
+		<type>String</type>
+	</field>
+	<field name="REF_OBLIG_CODE">
+		<xpath>/ClearingXML/FpML/trade/creditDefaultSwap/generalTerms/referenceInformation/referenceObligation/bond/instrumentId[@instrumentIdScheme='http://www.fpml.org/spec/2003/instrument-id-RED-pair-1-0']</xpath>
+		<type>String</type>
+	</field>
+	<field name="NOTIONAL">
+		<xpath>/ClearingXML/FpML/trade/creditDefaultSwap/protectionTerms/calculationAmount/amount</xpath>
+		<type>BigDecimal</type>
+	</field>
+	<field name="PARTY_ID_SWAPSWIRE">
+		<xpath>/ClearingXML/FpML/party[partyId='SWAPSWIRE']/@id</xpath>
+		<type>String</type>
+	</field>
+	<field name="PARTY_CLIENT">
+		<xpath>/ClearingXML/FpML/party</xpath>
+		<type>String</type>
+	</field>
+</mapping>
