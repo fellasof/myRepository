@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="rstPairsMbrFile">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="header" type="header"/>
+                <xs:element name="event" type="event" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="header">
+        <xs:sequence>
+            <xs:element fixed="Restructuring Macthed Pairs" name="dataType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Data type of the contents of the file</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element fixed="4.0" name="version" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Version tag refers to the xsd model version
+</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="businessDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Current business date (YYYY-MM-DD)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="creationTimestamp" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Creation timestamp at which the file has been generated. UTC Format YYYY-MM-DDTHH:MM:SS+HH:MM
+</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CMFCode">
+                <xs:annotation>
+                    <xs:documentation>Clearing Member Firm Code</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="CMFName">
+                <xs:annotation>
+                    <xs:documentation>Clearing Member Firm Name</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="40"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element minOccurs="0" name="CMFLEI">
+                <xs:annotation>
+                    <xs:documentation>Clearing Member Firm Legal Entity Identifier</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="40"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="run" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Number of run of the report during the day.
+Starts at 00.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="event">
+        <xs:sequence>
+            <xs:element name="eventName">
+                <xs:annotation>
+                    <xs:documentation>Name of the Restructuring Event</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element maxOccurs="1" minOccurs="0" name="products">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" name="product" type="product"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="product">
+        <xs:sequence>
+            <xs:element name="transactionType">
+                <xs:annotation>
+                    <xs:documentation>Transaction type of the CDS Contract (i.e. "Standard European Corporate" or "European Corporate")</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50"/>
+                        <xs:enumeration value="iTraxx Europe"/>
+                        <xs:enumeration value="Standard European Corporate"/>
+                        <xs:enumeration value="European Corporate"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element minOccurs="0" name="referenceEntity">
+                <xs:annotation>
+                    <xs:documentation>For Single Name bilateral trade, Name of the Reference Entity linked to the CDS  Single Name Contract.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element minOccurs="0" name="referenceObligation">
+                <xs:annotation>
+                    <xs:documentation>ISIN of the bond Obligation underlying the CDS Single Name Contract</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="REDCode">
+                <xs:annotation>
+                    <xs:documentation>Reference Entity Database (RED) 9-digit code identifying the Single Name (aka Markit Pair Clip)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="9"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="fixedRate" type="xs:decimal">
+                <xs:annotation>
+                    <xs:documentation>Fixed rate to be paid by the protection buyer (Fixed Rate Payer) to the protection Seller</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="maturityDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>The maturity date of the cleared trade</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="pairs">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" name="pair" type="pair"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="pair">
+        <xs:sequence>
+            <xs:element name="matchedPairId">
+                <xs:annotation>
+                    <xs:documentation>Internal CDSClear Identifier of the Restructruing Matched Pair (RMP)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="pairType">
+                <xs:annotation>
+                    <xs:documentation>Context in which the Pair will be used : Triggering or Movement Option</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="pairingDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Business date when CDSClear has generated the pair</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="matchingAmount" type="xs:decimal">
+                <xs:annotation>
+                    <xs:documentation>Notional amount of the cleared trade</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="matchingCurrency">
+                <xs:annotation>
+                    <xs:documentation>Currency of the Notional Amount</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="3"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="party" type="party"/>
+            <xs:element name="counterParty" type="counterParty"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="party">
+        <xs:sequence>
+            <xs:element name="CMFCode">
+                <xs:annotation>
+                    <xs:documentation>Code of the Clearing Member clearing the paired cleared trade</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="CMFName">
+                <xs:annotation>
+                    <xs:documentation>Legal Entity Name of the Clearing Member clearing the paired cleared trade</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="40"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="clearingMemberTRI">
+                <xs:annotation>
+                    <xs:documentation>Trade Reference Identifier (TRI) of the cleared trade affected by the Clearing Member or on behalf of the Clearing Member</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="40"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="CCPTRI">
+                <xs:annotation>
+                    <xs:documentation>Trade Reference Identifier (TRI) of the cleared trade affected by the CCP</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="40"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element minOccurs="0" name="DTCCTRI">
+                <xs:annotation>
+                    <xs:documentation>Trade Information Warehouse Identifier of the cleared trade</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="40"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element minOccurs="0" name="deskId">
+                <xs:annotation>
+                    <xs:documentation>Desk assigned by the Clearing Member</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="50"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="tradeDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Date on which the parties enter into the cleared trade</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="direction">
+                <xs:annotation>
+                    <xs:documentation>Direction identifying if the cleared trade party is the Fixed Rate Payer or the Floating Rate Payer</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="4"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="counterParty">
+        <xs:sequence>
+            <xs:element name="CMFCode">
+                <xs:annotation>
+                    <xs:documentation>Code of the Clearing Member clearing the paired cleared trade</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="20"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="CMFName">
+                <xs:annotation>
+                    <xs:documentation>Legal Entity Name of the Clearing Member clearing the paired cleared trade</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="40"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element minOccurs="0" name="DTCCTRI">
+                <xs:annotation>
+                    <xs:documentation>Trade Information Warehouse Identifier of the paired cleared trade</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="40"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

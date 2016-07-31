@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xs:element name="creditEventFile">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="header" type="header"/>
+                <xs:element name="eventsList">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="event" type="event" maxOccurs="unbounded"
+                                minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="header">
+        <xs:sequence>
+            <xs:element fixed="Events" name="dataType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Data type of the contents of the file</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element fixed="4.0" name="version" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Version tag refers to the xsd model version
+</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="businessDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Current business date (YYYY-MM-DD)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="creationTimestamp" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Creation timestamp at which the file has been generated. UTC Format YYYY-MM-DDTHH:MM:SS+HH:MM
+</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="edition" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Number of run of the report during the day.
+Starts at 00.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="event">
+        <xs:sequence>
+            <xs:element name="eventType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Type of Event 
+- "Bankruptcy/Failure to Pay"
+- "Restructuring"
+- "Rename"</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="eventName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Name of the event</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="impactedReferenceEntityCode" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Reference Entity Database (RED) 6-digit code identifying the impacted Reference Entity</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="impactedReferenceEntityName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Name of the impacted Reference Entity</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="creditEvent" type="creditEvent"/>
+                <xs:element name="rename" type="rename"/>
+                <xs:element name="succession" type="succession"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="creditEvent">
+        <xs:sequence>
+            <xs:element name="eventDeterminationDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Event Determination Date defined by the ISDA Determination Committee</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="indexLastNovationDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Last Clearing Date when CDSClear will accept Clearing new Index trades affected by the event</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="singleNameLastNovationDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Last Clearing Date when CDSClear will accept Clearing new Single Names trades on the impacted Reference Entity</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="auctionDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Date when the ISDA Determination Committee will announce if an auction will be held</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice>
+                <xs:element name="bkrFtp" type="bkrFtp"/>
+                <xs:element name="restructuring" type="restructuring"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="settlement">
+        <xs:annotation>
+            <xs:documentation/>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="settlementMethod" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Settlement Method that may be cash settlement or physical Settlement</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Cash"/>
+                        <xs:enumeration value="Physical"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="auctionFinalPrice" type="xs:decimal" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Auction Price for cash settlement</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="settlementDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>The final settlement date of the event / bucket</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="bkrFtp">
+        <xs:sequence>
+            <xs:element name="reversionningDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Reversioning of index and and termeination of SN cleared trades</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="settlement" type="settlement" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Settlement details</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="restructuring">
+        <xs:sequence>
+            <xs:element name="CDSClearSpinOffDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Date when CDSClear will spin off the index cleared trades on the Indices impacted by the event</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="reversionningDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Reversionning on Indexes (only)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cDSClearRestructuringMatchedPairCreationDate" type="xs:date"
+                minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Set of Business Dates when CDSClear will generate Restructuring Matched Pairs</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="maturityBucketList">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="maturityBucket" type="maturityBucket"
+                            maxOccurs="unbounded" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>List of the buckets specified by the ISDA Determination committee - Each bucket is defined by a maturity</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="triggeringStartDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>First date when parties may trigger the event adherence on their trades</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="triggeringEndDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Last date when parties may trigger the event adherence on their trades</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="optmStartDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>First date when parties may exercise a movement option on trades adhering to a Maturity Buckets without Auction</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="optmEndDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Last date when parties may exercise a movement option on trades adhering to a Maturity Buckets without Auction</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="maturityBucket">
+        <xs:annotation>
+            <xs:documentation/>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="duration" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Bucket Duration</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="settlement" type="settlement">
+                <xs:annotation>
+                    <xs:documentation>Settlement details</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="rename">
+        <xs:sequence>
+            <xs:element name="singleNameLastNovationDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Last Clearing Date when CDSClear will accept Clearing new Single Names trades on the impacted Reference Entity</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="newReferenceEntity" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Reference Entity Database (RED) 6-digit code identifying the Renamed Reference Entity</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="newReferenceEntityName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Name of the Renamed Reference Entity</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="newReferenceObligation" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>ISIN of the bond Obligation underlying the renamed CDS Single Name Contract</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="renameProcessingDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Clearing Date when CDSClear will process the rename on the cleared trades</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="succession">
+        <xs:sequence>
+            <xs:element name="processingDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation/>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
