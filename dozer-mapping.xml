@@ -1,0 +1,134 @@
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net  http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<!-- Mapping PsdReferenceEntity from CDSReferenceEntity -->
+	<mapping>
+		<class-a>com.lchclearnet.cds.domain.psd.entity.PsdReferenceEntity</class-a>
+		<class-b>com.lchclearnet.cds.ref.service.marketdata.CDSReferenceEntity</class-b>
+		
+		<field><a>referenceEntityId</a><b>referenceEntityId</b></field>
+		<field><a>markitCode</a><b>referenceEntityCode</b></field>
+		<field><a>referenceEntityLegalName</a><b>referenceEntityName</b></field>
+		<field><a>referenceEntityShortName</a><b>referenceEntityShortName</b></field>
+		<field><a>referenceEntityMarkitTicker</a><b>referenceEntityTicker</b></field>
+		<field><a>legalEntityId</a><b>lei.value</b></field>
+		<field><a>descriptionBeginDate</a><b>validityBeginDate</b></field>
+		<field><a>descriptionEndDate</a><b>validityEndDate</b></field>
+		<field><a>activitySectorCode</a><b>sectorCode</b></field>
+	</mapping> 
+	
+	<!-- Mapping PsdReferenceObligationPair from ReferenceObligationPairNonSRO -->
+	<mapping>
+		<class-a>com.lchclearnet.cds.domain.psd.entity.PsdReferenceObligationPair</class-a>
+		<class-b>com.lchclearnet.cds.ref.service.marketdata.ReferenceObligationPairNonSRO</class-b>
+		
+		<field><a>referenceObligationPairId</a><b>referenceObligationPairId</b></field>
+		<field><a>referenceObligationPairCode</a><b>referenceObligationPairCode</b></field>
+		<field><a>isinCode</a><b>isin</b></field>
+		<field><a>referenceObligationName</a><b>referenceObligationName</b></field>
+		<field><a>psdReferenceEntity.referenceEntityId</a><b>referenceEntityId</b></field>
+		<field><a>seniority</a><b>seniorityCode.value</b></field>
+		<field><a>validityBeginDate</a><b>validityBeginDate</b></field>
+		<field><a>validityEndDate</a><b>validityEndDate</b></field>
+		
+	</mapping>
+	
+	<!-- Mapping PsdReferenceObligationPair from ReferenceObligationPairSRO -->
+	<mapping>
+		<class-a>com.lchclearnet.cds.domain.psd.entity.PsdReferenceObligationPair</class-a>
+		<class-b>com.lchclearnet.cds.ref.service.marketdata.ReferenceObligationPairSRO</class-b>
+		
+		<field><a>referenceObligationPairId</a><b>referenceObligationPairId</b></field>
+		<field><a>referenceObligationPairCode</a><b>referenceObligationPairCode</b></field>
+		<field><a>isinCode</a><b>isin</b></field>
+		<field><a>psdReferenceEntity.referenceEntityId</a><b>referenceEntityId</b></field>
+		<field><a>validityBeginDate</a><b>validityBeginDate</b></field>
+		<field><a>validityEndDate</a><b>validityEndDate</b></field>
+		
+	</mapping>
+
+	<!-- Mapping PsdEligibleReferenceObligation from EligibleReferenceObligationPair -->
+	<mapping>
+		<class-a>com.lchclearnet.cds.domain.psd.entity.PsdEligibleReferenceObligation</class-a>
+		<class-b>com.lchclearnet.cds.ref.service.marketdata.EligibleReferenceObligationPair</class-b>
+		
+		<field><a>key.referenceObligationPair.referenceObligationPairId</a><b>referenceObligationPairId</b></field>
+		<field><a>key.eligibilityBeginDate</a><b>eligibilityBeginDate</b></field>
+		<field><a>eligibilityEndDate</a><b>eligibilityEndDate</b></field>
+		<field><a>key.product.productId</a><b>productId</b></field>
+	</mapping> 
+	
+	<!-- Mapping PsdSroAssocOblig from SROAssociatedObligation -->
+	<mapping>
+		<class-a>com.lchclearnet.cds.domain.psd.entity.PsdSroAssocOblig</class-a>
+		<class-b>com.lchclearnet.cds.ref.service.marketdata.SROAssociatedObligation</class-b>
+		
+		<field><a>key.referenceObligationPairNonSRO.referenceObligationPairId</a><b>referenceObligationPairNonSROId</b></field>
+		<field><a>key.beginDate</a><b>sroBeginDate</b></field>
+		<field><a>endDate</a><b>sroEndDate</b></field>
+		
+	</mapping> 
+
+	<!-- Mapping PsdProduct from CDSProduct -->
+	<mapping>
+		<class-a>com.lchclearnet.cds.domain.psd.entity.PsdProduct</class-a>
+		<class-b>com.lchclearnet.cds.ref.service.marketdata.CDSProduct</class-b>
+		
+		<field><a>productId</a><b>productId</b></field>
+		<field><a>transactionTypeCode.transactionTypeCode</a><b>transactionTypeCode</b></field>
+		<field><a>productName</a><b>cdsProductName</b></field>
+		<field><a>markitProductCode</a><b>indexProductCode</b></field>
+		<field><a>idxDesignation.idxDesignationCode</a><b>indexDesignation</b></field>
+		<field><a>idxDesignation.transactionTypeCode</a><b>transactionTypeCode</b></field>
+		<field><a>idxSeries</a><b>indexSeries</b></field>
+		<field><a>idxVersion</a><b>indexVersion</b></field>
+		<field><a>idxFactor</a><b>indexFactor</b></field>
+		<field><a>idxEffectiveDate</a><b>indexEffectiveDate</b></field>
+		<field><a>annexeDate</a><b>annexDate</b></field>
+		<field><a>referenceEntity.referenceEntityId</a><b>singleNameReferenceEntityId</b></field>
+		<field><a>snProductChildId</a><b>singleNameProductChildId</b></field>
+		<field><a>uniqueProductId</a><b>upi.value</b></field>
+		<field><a>currencyCode</a><b>currency.value</b></field>
+		<field><a>validityBeginDate</a><b>validityBeginDate</b></field>
+		<field><a>validityEndDate</a><b>validityEndDate</b></field>
+	</mapping> 
+
+	<!-- Mapping PsdPrefReferObligPair from CDSProduct -->
+	<mapping>
+		<class-a>com.lchclearnet.cds.domain.psd.entity.PsdPrefReferObligPair</class-a>
+		<class-b>com.lchclearnet.cds.ref.service.marketdata.CDSProduct</class-b>
+		
+		<field><a>key.product.productId</a><b>productId</b></field>
+		<field><a>key.beginDate</a><b>preferredReferenceObligationPair.effectiveBeginDate</b></field>
+		<field><a>endDate</a><b>preferredReferenceObligationPair.effectiveEndDate</b></field>
+
+	</mapping> 
+
+	<!-- Mapping PsdContract from CDSContract -->
+	<mapping>
+		<class-a>com.lchclearnet.cds.domain.psd.entity.PsdContract</class-a>
+		<class-b>com.lchclearnet.cds.ref.service.marketdata.CDSContract</class-b>
+		
+		<field><a>contractId</a><b>contractId</b></field>
+		<field><a>product.productId</a><b>productId</b></field>
+		<field><a>contractCode</a><b>contractCode</b></field>
+		<field><a>tenor</a><b>tenor</b></field>
+		<field><a>firstNovatDate</a><b>firstNovationDate</b></field>
+		<field><a>lastNovatDate</a><b>lastNovationDate</b></field>
+		<field><a>fixRate</a><b>fixedRate</b></field>
+		<field><a>contractMaturDate</a><b>maturityDate</b></field>
+		<field><a>validBeginDate</a><b>validityBeginDate</b></field>
+		<field><a>validEndDate</a><b>validityEndDate</b></field>
+	</mapping> 
+
+	<!-- Mapping PsdIdxComposition from CDSIndexConstituent -->
+	<mapping>
+		<class-a>com.lchclearnet.cds.domain.psd.entity.PsdIdxComposition</class-a>
+		<class-b>com.lchclearnet.cds.ref.service.marketdata.CDSIndexConstituent</class-b>
+		
+		<field><a>key.product.productId</a><b>productId</b></field>
+		<field><a>key.beginDate</a><b>compositionDate</b></field>
+		
+	</mapping> 
+	
+</mappings>
